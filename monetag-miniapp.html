@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="//pl25183003.profitablecpmrate.com/6b/fe/cf/6bfecf7d1f0652034955ac8d3d261fe6.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ad Reward System</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+    :root {
+      --primary-color: #4ecca3;
+      --secondary-color: #45b7a4;
+      --background-color: #1a1a2e;
+      --text-color: #fff;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, var(--background-color), #16213e, #0f3460);
+      color: var(--text-color);
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+    }
+
+    .container {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      width: 90%;
+      max-width: 400px;
+      transform: translateY(20px);
+      opacity: 0;
+      animation: fadeIn 0.5s ease-out forwards;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1 {
+      font-size: 24px;
+      color: var(--primary-color);
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .profile-picture {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin: 20px auto;
+      border: 4px solid var(--primary-color);
+      box-shadow: 0 0 20px var(--primary-color);
+      transition: all 0.3s ease;
+      object-fit: cover;
+    }
+
+    .profile-picture:hover {
+      transform: scale(1.1);
+    }
+
+    .user-info {
+      margin: 20px 0;
+    }
+
+    .user-info p {
+      font-size: 16px;
+      margin: 10px 0;
+    }
+
+    .stats {
+      display: flex;
+      justify-content: space-around;
+      margin: 20px 0;
+    }
+
+    .stat-item {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 10px;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .stat-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(78, 204, 163, 0.3);
+    }
+
+    .progress-circle {
+      width: 120px;
+      height: 120px;
+      border: 6px solid var(--primary-color);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 20px auto;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .progress-circle::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: conic-gradient(var(--primary-color) var(--progress), transparent 0deg);
+      mask: radial-gradient(transparent 55%, black 56%);
+      mask-mode: alpha;
+      -webkit-mask: radial-gradient(transparent 55%, black 56%);
+      -webkit-mask-mode: alpha;
+    }
+
+    .progress-circle span {
+      font-size: 24px;
+      font-weight: bold;
+      z-index: 1;
+    }
+
+    .buttons {
+      display: grid;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .buttons button {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 50px;
+      color: white;
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(78, 204, 163, 0.3);
+    }
+
+    .buttons button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(78, 204, 163, 0.4);
+    }
+
+    .buttons button:active {
+      transform: translateY(1px);
+    }
+
+    .buttons button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .withdraw-section {
+      margin-top: 30px;
+      display: none;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      animation: slideDown 0.5s ease-out;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .withdraw-section input,
+    .withdraw-section select {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 50px;
+      border: 2px solid var(--primary-color);
+      background-color: rgba(255, 255, 255, 0.1);
+      color: var(--text-color);
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .withdraw-section input:focus,
+    .withdraw-section select:focus {
+      border-color: var(--secondary-color);
+      outline: none;
+      box-shadow: 0 0 10px rgba(78, 204, 163, 0.5);
+    }
+
+    .withdraw-section button {
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      margin-top: 15px;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      color: white;
+    }
+
+    .withdraw-section button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(78, 204, 163, 0.4);
+    }
+
+    #withdraw-status {
+      color: #ff6b6b;
+      font-size: 14px;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(78, 204, 163, 0.9);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      display: none;
+      animation: fadeInOut 3s ease-in-out;
+    }
+
+    @keyframes fadeInOut {
+      0%, 100% { opacity: 0; }
+      10%, 90% { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Auto MoneTag Ads</h1>
+    <div class="user-info">
+      <img id="profile-picture" class="profile-picture" alt="Profile Picture" />
+      <p>Welcome, <span id="user-name"></span></p>
+    </div>
+    <div class="stats">
+      <div class="stat-item">
+        <p>Watched Ads</p>
+        <span id="watched-ads">0</span>
+      </div>
+      <div class="stat-item">
+        <p>Earned Points</p>
+        <span id="earned-points">0</span>
+      </div>
+    </div>
+    <div class="progress-circle">
+      <span id="ads-progress">0%</span>
+    </div>
+    <div class="buttons">
+      <button id="watch-ad-btn" onclick="watchAd()">Watch Ad</button>
+      <button id="auto-ad-btn" onclick="startAutoAds()">Auto Show Ads</button>
+      <button id="stop-auto-btn" onclick="stopAutoAds()" disabled>Stop Auto Ads</button>
+      <button id="withdraw-btn" onclick="showWithdrawForm()">Withdraw</button>
+    </div>
+    <div class="withdraw-section" id="withdraw-section">
+      <h3 style="color: var(--primary-color); margin-bottom: 15px;">Withdrawal Request</h3>
+      <input type="number" id="withdraw-amount" placeholder="Enter Points to Withdraw">
+      <select id="payment-method">
+        <option value="bkash">Bkash</option>
+        <option value="nagad">Nagad</option>
+        <option value="manual">Manual</option>
+      </select>
+      <input type="text" id="withdraw-phone" placeholder="Enter Phone Number">
+      <button onclick="withdrawPoints()">Withdraw</button>
+      <p id="withdraw-status"></p>
+    </div>
+  </div>
+  <div class="toast" id="toast"></div>
+  <script src="//jagnaimsee.net/vignette.min.js" data-zone="8621434" data-sdk="show_8621434"></script>
+  <script>
+    // Initialize Telegram Web App
+    const tg = window.Telegram.WebApp;
+
+    if (tg) {
+      tg.ready();
+      tg.expand();
+
+      const user = tg.initDataUnsafe?.user || {};
+      document.getElementById("user-name").textContent = user.username || "Guest";
+      const profilePictureElement = document.getElementById("profile-picture");
+      profilePictureElement.src = user.photo_url || "https://via.placeholder.com/100?text=No+Image";
+    }
+
+    const MIN_WITHDRAW_POINTS = 5;
+    let watchedAdsCount = 0;
+    let earnedPoints = 0.0;
+    let autoAdInterval;
+
+    function watchAd() {
+      if (typeof show_8621434 === "function") {
+        show_8621434().then(() => {
+          watchedAdsCount++;
+          earnedPoints += 0.5;
+          updateStats();
+          updateProgressCircle();
+          showToast("Ad watched successfully! +0.5 points");
+        });
+      }
+    }
+
+    function updateStats() {
+      document.getElementById("watched-ads").textContent = watchedAdsCount;
+      document.getElementById("earned-points").textContent = earnedPoints.toFixed(2);
+    }
+
+    function updateProgressCircle() {
+      const percentage = Math.min((watchedAdsCount / 10) * 100, 100);
+      document.getElementById("ads-progress").textContent = `${Math.round(percentage)}%`;
+      document.querySelector('.progress-circle').style.setProperty('--progress', `${percentage * 3.6}deg`);
+    }
+
+    function startAutoAds() {
+      autoAdInterval = setInterval(watchAd, 5000);
+      document.getElementById("auto-ad-btn").disabled = true;
+      document.getElementById("stop-auto-btn").disabled = false;
+      showToast("Auto ads started");
+    }
+
+    function stopAutoAds() {
+      clearInterval(autoAdInterval);
+      document.getElementById("auto-ad-btn").disabled = false;
+      document.getElementById("stop-auto-btn").disabled = true;
+      showToast("Auto ads stopped");
+    }
+
+    function showWithdrawForm() {
+      const withdrawSection = document.getElementById("withdraw-section");
+      withdrawSection.style.display = "block";
+      withdrawSection.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function withdrawPoints() {
+      const amount = parseFloat(document.getElementById("withdraw-amount").value);
+      const paymentMethod = document.getElementById("payment-method").value;
+      const phoneNumber = document.getElementById("withdraw-phone").value;
+
+      if (amount < MIN_WITHDRAW_POINTS) {
+        showWithdrawStatus(`Minimum withdrawal is ${MIN_WITHDRAW_POINTS} points.`, false);
+        return;
+      }
+
+      if (amount > earnedPoints) {
+        showWithdrawStatus("Insufficient points.", false);
+        return;
+      }
+
+      if (!phoneNumber) {
+        showWithdrawStatus("Please enter a phone number.", false);
+        return;
+      }
+
+      earnedPoints -= amount;
+      updateStats();
+      showWithdrawStatus("Withdrawal request sent!", true);
+      
+      // Reset form
+      document.getElementById("withdraw-amount").value = "";
+      document.getElementById("withdraw-phone").value = "";
+      
+      // Send withdrawal info to Telegram bot (if available)
+      if (tg && tg.sendData) {
+        const withdrawalInfo = JSON.stringify({
+          amount: amount,
+          paymentMethod: paymentMethod,
+          phoneNumber: phoneNumber
+        });
+        tg.sendData(withdrawalInfo);
+      }
+    }
+
+    function showWithdrawStatus(message, success) {
+      const withdrawStatus = document.getElementById("withdraw-status");
+      withdrawStatus.textContent = message;
+      withdrawStatus.style.color = success ? "var(--primary-color)" : "#ff6b6b";
+      withdrawStatus.style.animation = "pulse 0.5s ease-in-out 2";
+    }
+
+    function showToast(message) {
+      consttoast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.style.display = "block";
+      setTimeout(() => {
+        toast.style.display = "none";
+      }, 3000);
+    }
+
+    // Initialize the UI
+    updateStats();
+    updateProgressCircle();
+  </script>
+</body>
+</html>
